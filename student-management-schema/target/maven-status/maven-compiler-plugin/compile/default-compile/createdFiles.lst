@@ -1,0 +1,3 @@
+com/student/manager/kafka/schema/avro/StudentAvro.class
+com/student/manager/kafka/schema/avro/StudentAvro$Builder.class
+com/student/manager/kafka/schema/avro/StudentAvro$1.class

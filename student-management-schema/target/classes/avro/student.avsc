@@ -1,0 +1,14 @@
+{
+    "namespace":"com.student.manager.kafka.schema.avro",
+    "type":"record",
+    "doc":"This Schema describes about student",
+    "name":"StudentAvro",
+    "fields":[
+		{"name":"student_id","type": "string"},			
+        {"name":"first_name","type": "string"},
+        {"name":"last_name","type": "string"},
+        {"name":"dob","type": "string"},
+        {"name":"email","type": "string"},
+        {"name":"address","type": "string"}
+    ]
+}

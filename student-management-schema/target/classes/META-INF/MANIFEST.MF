@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+Built-By: ruthwik
+Build-Jdk: 11.0.3
+Automatic-Module-Name: com.avaya.metam.messaging.schema.signalling.avro
+Created-By: Maven Integration for Eclipse
+

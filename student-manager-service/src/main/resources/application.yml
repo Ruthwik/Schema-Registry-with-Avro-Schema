@@ -24,15 +24,16 @@ spring:
           content-type: application/*+avro
       kafka:
           binder:
-           brokers: localhost:9092       
+           brokers: ${KAFKA_BROKER:localhost:9092}
+           autoAddPartitions: true         
            producer-properties:
              key.serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
              value.serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
-             schema.registry.url: http://localhost:8081 
+             schema.registry.url: ${SCHEMA_REGISTRY_URL:http://localhost:8081} 
            consumer-properties:
              key.deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
              value.deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
-             schema.registry.url: http://localhost:8081
+             group: student-manager
              specific.avro.reader: true
       schema:
         avro:

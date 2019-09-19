@@ -6,7 +6,7 @@
 
 	<groupId>com.student.management</groupId>
 	<artifactId>student-manager-service</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>Student Management</name>
 	<description>Student Management Project</description>
 
@@ -41,23 +41,16 @@
 			<artifactId>spring-cloud-stream-test-support</artifactId>
 			<scope>test</scope>
 		</dependency>
-
-		<dependency>
-			<groupId>io.confluent</groupId>
-			<artifactId>kafka-avro-serializer</artifactId>
-			<version>4.0.0</version>
-		</dependency>
-
 		<dependency>
 			<groupId>org.apache.avro</groupId>
 			<artifactId>avro-compiler</artifactId>
-			<version>1.8.2</version>
+			<version>${avro.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.apache.avro</groupId>
 			<artifactId>avro-maven-plugin</artifactId>
-			<version>1.8.2</version>
+			<version>${avro.version}</version>
 		</dependency>
 
 		<!-- Swagger -->
@@ -77,6 +70,16 @@
 			<groupId>io.confluent</groupId>
 			<artifactId>kafka-avro-serializer</artifactId>
 			<version>4.0.0</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-log4j12</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>com.student.management</groupId>
@@ -105,64 +108,35 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+
 			<plugin>
-				<groupId>org.apache.avro</groupId>
-				<artifactId>avro-maven-plugin</artifactId>
-				<version>${avro.version}</version>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>jib-maven-plugin</artifactId>
 				<executions>
 					<execution>
-						<phase>none</phase>
-					</execution>
-
-					<execution>
-						<id>avroschema</id>
-						<phase>generate-sources</phase>
+						<phase>install</phase>
 						<goals>
-							<goal>schema</goal>
+							<goal>build</goal>
 						</goals>
-						<configuration>
-							<sourceDirectory>${project.basedir}/src/main/resources/avro/</sourceDirectory>
-							<imports>
-								<import>${project.basedir}/src/main/resources/avro/student.avsc</import>
-							</imports>
-							<outputDirectory>${project.basedir}/src/main/java</outputDirectory>
-							<fieldVisibility>PRIVATE</fieldVisibility>
-						</configuration>
 					</execution>
 				</executions>
+				<configuration>
+					<to>
+						<image>localhost:5000/${artifactId}</image>
+						<tags>
+							<tag>${project.version}</tag>
+						</tags>
+					</to>
+					<from>
+						<image>localhost:5000/openjdk11</image>
+					</from>
+					<allowInsecureRegistries>true</allowInsecureRegistries>
+				</configuration>
+
 			</plugin>
 		</plugins>
 
-		<pluginManagement>
-			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings 
-					only. It has no influence on the Maven build itself. -->
-				<plugin>
-					<groupId>org.eclipse.m2e</groupId>
-					<artifactId>lifecycle-mapping</artifactId>
-					<version>1.0.0</version>
-					<configuration>
-						<lifecycleMappingMetadata>
-							<pluginExecutions>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>org.apache.avro</groupId>
-										<artifactId>avro-maven-plugin</artifactId>
-										<versionRange>[1.8.2,)</versionRange>
-										<goals>
-											<goal>schema</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<ignore></ignore>
-									</action>
-								</pluginExecution>
-							</pluginExecutions>
-						</lifecycleMappingMetadata>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
+
 	</build>
 
 

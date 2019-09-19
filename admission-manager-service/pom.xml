@@ -5,8 +5,8 @@
 
 
 	<groupId>com.student.management</groupId>
-	<artifactId>admission-manger-service</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<artifactId>admission-manager-service</artifactId>
+	<version>0.0.1</version>
 	<name>Student Management</name>
 	<description>Student Management Project</description>
 
@@ -41,23 +41,17 @@
 			<artifactId>spring-cloud-stream-test-support</artifactId>
 			<scope>test</scope>
 		</dependency>
-
-		<dependency>
-			<groupId>io.confluent</groupId>
-			<artifactId>kafka-avro-serializer</artifactId>
-			<version>4.0.0</version>
-		</dependency>
-
+		
 		<dependency>
 			<groupId>org.apache.avro</groupId>
 			<artifactId>avro-compiler</artifactId>
-			<version>1.8.2</version>
+			<version>${avro.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.apache.avro</groupId>
 			<artifactId>avro-maven-plugin</artifactId>
-			<version>1.8.2</version>
+			<version>${avro.version}</version>
 		</dependency>
 
 		<!-- Swagger -->
@@ -77,6 +71,16 @@
 			<groupId>io.confluent</groupId>
 			<artifactId>kafka-avro-serializer</artifactId>
 			<version>4.0.0</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-log4j12</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>
@@ -101,6 +105,42 @@
 	</dependencyManagement>
 
 
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+
+			<plugin>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>jib-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>install</phase>
+						<goals>
+							<goal>build</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<to>
+						<image>localhost:5000/${artifactId}</image>
+						<tags>
+							<tag>${project.version}</tag>
+						</tags>
+					</to>
+					<from>
+						<image>localhost:5000/openjdk11</image>
+					</from>
+					<allowInsecureRegistries>true</allowInsecureRegistries>
+				</configuration>
+
+			</plugin>
+		</plugins>
+
+
+	</build>
 
 	<repositories>
 		<repository>

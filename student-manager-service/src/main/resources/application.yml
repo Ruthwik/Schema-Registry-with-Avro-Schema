@@ -33,7 +33,7 @@ spring:
            consumer-properties:
              key.deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
              value.deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
-             group: student-manager
+             schema.registry.url: ${SCHEMA_REGISTRY_URL:http://localhost:8081}
              specific.avro.reader: true
       schema:
         avro:

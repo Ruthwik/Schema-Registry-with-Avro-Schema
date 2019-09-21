@@ -1,4 +1,4 @@
-version: '2.0'
+version: '3'
 services:
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
@@ -30,7 +30,21 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     networks:
     - local_network
-    
+
+  landoop:
+    image: landoop/schema-registry-ui:latest
+    hostname: landoop
+    container_name: landoop
+    depends_on:
+      - schema-registry
+    ports:
+      - "8000:8000"
+    environment:
+      SCHEMAREGISTRY_URL: http://schema-registry:8081
+      PROXY: "true"
+    networks:
+    - local_network
+
   schema-registry:
     image: confluentinc/cp-schema-registry:5.3.0
     hostname: schema-registry
@@ -53,6 +67,8 @@ services:
       - schema-registry
     environment:
     - KAFKA_BROKER=kafka
+    - KAFKA_INPUT_TOPIC=avro.topic2
+    - KAFKA_OUTPUT_TOPIC=avro.topic1
     - SCHEMA_REGISTRY_URL=http://schema-registry:8081
     ports:
     - "9090:9090"
@@ -66,12 +82,14 @@ services:
       - schema-registry
     environment:
     - KAFKA_BROKER=kafka
+    - KAFKA_INPUT_TOPIC=avro.topic1
+    - KAFKA_OUTPUT_TOPIC=avro.topic2
     - SCHEMA_REGISTRY_URL=http://schema-registry:8081
     ports:
     - "7070:7070"
     networks:
     - local_network
-   
+
 networks:
  local_network:
    external: true

@@ -11,7 +11,9 @@
   > mvn clean install 
 2. Create a Docker network
 > docker network create local_network
-3. docker-compose to run the services.
+3. Go to Run docker-compose to run the services.
+> docker-compose up -d
+
    This will run
    * zookeeper
    * kafka

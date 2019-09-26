@@ -7,7 +7,7 @@
 2. Local Registry up and running on port 5000
 
 ## Steps
-1. Run and build both the services. The following will create a docker image in local Registry
+1. Build both the services. The following will create a docker image in local Registry
   > mvn clean install 
 2. Create a Docker network
 > docker network create local_network
